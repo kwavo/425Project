@@ -1,0 +1,8 @@
+Helpful Links
+
+API
+https://opentdb.com/api_config.php
+http://jservice.io/
+ 
+Using API 
+https://www.androidauthority.com/use-remote-web-api-within-android-app-617869/
