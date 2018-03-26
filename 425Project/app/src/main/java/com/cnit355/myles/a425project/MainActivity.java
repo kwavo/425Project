@@ -119,10 +119,7 @@ public class MainActivity extends AppCompatActivity {
     private void generateNewQuestion(JSONArray a, int i, String r){
         questionCounter++;
         try {
-            JSONObject object = (JSONObject) new JSONTokener(r).nextValue();
-            JSONArray jsonArray = new JSONArray(object.getString("results"));
-
-            JSONObject x = (JSONObject)jsonArray.get(questionCounter);
+            JSONObject x = (JSONObject)a.get(i);
             JSONArray ans = x.getJSONArray("incorrect_answers");
             for(int j = 0; j < ans.length(); j++){
                 answers[j] = ans.getString(j);
