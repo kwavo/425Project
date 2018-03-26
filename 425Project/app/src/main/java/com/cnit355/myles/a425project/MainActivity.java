@@ -5,8 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -17,26 +19,37 @@ import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText test;
-    TextView question;
+    TextView test,question;
+    ListView list;
+    String answers[] = new String[4];
+    ArrayAdapter<String> adapter;
+    int questionCounter = 0;
+    String apiResponse;
+    JSONArray questionList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button button = findViewById(R.id.button3);
+        Button nextBtn = findViewById(R.id.nextBtn);
         test = findViewById(R.id.editText);
         question = findViewById(R.id.textView2);
+        list = findViewById(R.id.listView);
+        list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        new Retrieve().execute();
 
-        button.setOnClickListener(new View.OnClickListener() {
+        nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new Retrieve().execute();
+                generateNewQuestion(questionList, questionCounter, apiResponse);
             }
         });
     }
@@ -45,13 +58,10 @@ public class MainActivity extends AppCompatActivity {
         private Exception exception;
 
         protected void onPreExecute() {
-            //responseView.setText("");
+
         }
 
         protected String doInBackground(Void... urls) {
-            //String email = emailText.getText().toString();
-            // Do some validation here
-
             try {
                 URL url = new URL("https://opentdb.com/api.php?amount=10&type=multiple");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -79,21 +89,72 @@ public class MainActivity extends AppCompatActivity {
             if(response == null) {
                 response = "THERE WAS AN ERROR";
             }
-
             Log.i("INFO", response);
-            //responseView.setText(response);
+            apiResponse = response;
             try {
+
                 JSONObject object = (JSONObject) new JSONTokener(response).nextValue();
                 JSONArray jsonArray = new JSONArray(object.getString("results"));
-                JSONObject x = (JSONObject)jsonArray.get(0);
+                questionList = jsonArray;
+
+                JSONObject x = (JSONObject)jsonArray.get(questionCounter);
+                JSONArray ans = x.getJSONArray("incorrect_answers");
+                for(int j = 0; j < ans.length(); j++){
+                    answers[j] = ans.getString(j);
+                }
                 String name = x.getString("question");
-                Log.i("question : " , name);
+                String correctAnswer = x.getString("correct_answer");
+                answers[3] = correctAnswer;
+                adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, answers);
+                shuffleArray(answers);
+                list.setAdapter(adapter);
                 question.setText(name);
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+    }
 
+    private void generateNewQuestion(JSONArray a, int i, String r){
+        questionCounter++;
+        try {
+            JSONObject object = (JSONObject) new JSONTokener(r).nextValue();
+            JSONArray jsonArray = new JSONArray(object.getString("results"));
+
+            JSONObject x = (JSONObject)jsonArray.get(questionCounter);
+            JSONArray ans = x.getJSONArray("incorrect_answers");
+            for(int j = 0; j < ans.length(); j++){
+                answers[j] = ans.getString(j);
+            }
+            String name = x.getString("question");
+            String correctAnswer = x.getString("correct_answer");
+
+            adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, answers);
+            answers[3] = correctAnswer;
+            shuffleArray(answers);
+            list.setAdapter(adapter);
+            question.setText(name);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void shuffleArray(String[] a) {
+        int n = a.length;
+        Random random = new Random();
+        random.nextInt();
+        for (int i = 0; i < n; i++) {
+            int change = i + random.nextInt(n - i);
+            swap(a, i, change);
+        }
+    }
+
+    private static void swap(String[] a, int i, int change) {
+        String helper = a[i];
+        a[i] = a[change];
+        a[change] = helper;
     }
 }
