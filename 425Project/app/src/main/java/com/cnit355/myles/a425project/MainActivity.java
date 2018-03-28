@@ -53,21 +53,22 @@ public class MainActivity extends AppCompatActivity {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // check if answer selected is correct
-                list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        selectedAnswer = adapter.getItem(i);
-                        Log.i("selectedAnswer: ", selectedAnswer);
-                        if(checkAnswer(questionList, questionCounter, selectedAnswer) == true){
-                            correctAnswerCounter++;
-                        }
-                        Log.i("Correct: ", "Count " + correctAnswerCounter);
-                    }
-                });
-
-
+                questionCounter++;
                 generateNewQuestion(questionList, questionCounter, apiResponse);
+
+            }
+        });
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // check if selected answer is correct
+                selectedAnswer = adapter.getItem(i);
+                Log.i("selectedAnswer: ", selectedAnswer);
+                if(checkAnswer(questionList, questionCounter, selectedAnswer) == true){
+                    correctAnswerCounter++;
+                }
+                Log.i("Correct: ", "Count " + correctAnswerCounter);
             }
         });
     }
@@ -114,20 +115,8 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject object = (JSONObject) new JSONTokener(response).nextValue();
                 JSONArray jsonArray = new JSONArray(object.getString("results"));
                 questionList = jsonArray;
+                generateNewQuestion(questionList, questionCounter, apiResponse);
 
-//                JSONObject x = (JSONObject)jsonArray.get(questionCounter);
-//                JSONArray ans = x.getJSONArray("incorrect_answers");
-//                for(int j = 0; j < ans.length(); j++){
-//                    answers[j] = ans.getString(j);
-//                }
-//                String name = x.getString("question");
-//                String correctAnswer = x.getString("correct_answer");
-//                answers[3] = correctAnswer;
-//                adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, answers);
-//                shuffleArray(answers);
-//                list.setAdapter(adapter);
-//                question.setText(name);
-                question.setText("Press next to start.");
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -136,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void generateNewQuestion(JSONArray a, int i, String r){
-        questionCounter++;
         try {
             JSONObject x = (JSONObject)a.get(i);
             JSONArray ans = x.getJSONArray("incorrect_answers");
