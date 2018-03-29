@@ -1,5 +1,6 @@
 package com.cnit355.myles.a425project;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -55,6 +56,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 questionCounter++;
                 generateNewQuestion(questionList, questionCounter, apiResponse);
+                if(questionCounter > 9){
+                    Intent mIntent = new Intent(MainActivity.this, QuizResults.class);
+                    mIntent.putExtra("numberCorrect", correctAnswerCounter);
+                    startActivity(mIntent);
+                }
 
             }
         });
