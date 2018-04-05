@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "163685996819",
+    "firebase_url": "https://quiz-leaderboard-f9a58.firebaseio.com",
+    "project_id": "quiz-leaderboard-f9a58",
+    "storage_bucket": "quiz-leaderboard-f9a58.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:163685996819:android:9f0b18d6294506dc",
+        "android_client_info": {
+          "package_name": "com.cnit355.myles.a425project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "163685996819-h1l4a33md4buobmjtc1qa5g4l4pf8a8b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWXiNYdZFx-LdJfgAL0zqECLledQJnjcQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
