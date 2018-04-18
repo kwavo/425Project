@@ -11,21 +11,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".QuizResults"
+        <activity android:name=".LoginActivity"
+            android:parentActivityName=".LoginActivity"/>
+        <activity android:name=".SignUpActivity"
+            android:parentActivityName=".LoginActivity"/>
+        <activity android:name=".MainActivity"
+            android:parentActivityName=".WelcomeActivity"/>
+        <activity android:name=".QuizResults"
             android:parentActivityName=".WelcomeActivity" />
         <activity android:name=".Leaderboard"
             android:parentActivityName=".WelcomeActivity"/>
-        <activity android:name=".WelcomeActivity"/>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".SignUpActivity"></activity>
     </application>
 
 </manifest>

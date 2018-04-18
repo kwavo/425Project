@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public class NetworkAsyncTask extends AsyncTask<Integer, String, Integer> {
+    public class NetworkAsyncTask extends AsyncTask<Integer, String, Object> {
         Context context = null;
         String address;
         ProgressDialog dialog = null;
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Integer doInBackground(Integer... integers) {
+        protected Object doInBackground(Integer... integers) {
             StringBuffer sb = new StringBuffer();
             InputStream is = null;
             InputStreamReader isr = null;
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                         sb.append(strLine + "\n");
                     }
                     Log.i("sb: ", sb.toString());
-                    parser(sb.toString())
+                    parser(sb.toString());
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -111,8 +111,10 @@ public class MainActivity extends AppCompatActivity {
             super.onProgressUpdate(values);
         }
 
+
         @Override
-        protected void onPostExecute(Integer integer) {
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
             dialog.dismiss();
         }
 
@@ -141,11 +143,11 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     JSONObject jsonObject2 = jsonObject1.getJSONObject("info");
-                    int no = jsonObject2.getInt("no");
+                    int year = jsonObject2.getInt("year");
                     String number = jsonObject2.getString("number");
                     int id = jsonObject2.getInt("id");
 
-                    Member member = new Member(name, hobbies, no, number, id);
+                    Member member = new Member(name, year, hobbies, number, id);
                     members.add(member);
                 }
             } catch (Exception ex) {
@@ -155,19 +157,59 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public class Member {
-        private  String name;
-        private ArrayList<String> year;
-        private int hobby;
-        private String number;
-        private int id;
+        String name;
+        int year;
+        ArrayList<String> hobbies;
+        String number;
+        int id;
 
-        public Member(String n, int y, String hob, String num, String id) {
+        public Member(String n, int y, ArrayList<String> h, String num, int id) {
             name = n;
             year = y;
-            hobby = hob;
-
+            hobbies = h;
+            number = num;
+            this.id = id;
         }
 
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public int getYear() {
+            return year;
+        }
+
+        public void setYear(int year) {
+            this.year = year;
+        }
+
+        public ArrayList<String> getHobbies() {
+            return hobbies;
+        }
+
+        public void setHobbies(ArrayList<String> hobbies) {
+            this.hobbies = hobbies;
+        }
+
+        public String getNumber() {
+            return number;
+        }
+
+        public void setNumber(String number) {
+            this.number = number;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
     }
 
 }

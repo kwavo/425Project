@@ -29,7 +29,7 @@ public class QuizResults extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Start game over
-                Intent tryAgain = new Intent(QuizResults.this, MainActivity.class);
+                Intent tryAgain = new Intent(QuizResults.this, WelcomeActivity.class);
                 startActivity(tryAgain);
             }
         });

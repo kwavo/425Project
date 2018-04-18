@@ -109,10 +109,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            Toast.makeText(getApplicationContext(), "hello", Toast.LENGTH_SHORT).show();
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 //Get bluetooth device
-                Toast.makeText(getApplicationContext(), "hello", Toast.LENGTH_SHORT).show();
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 String dName = device.getName();
                 String dHardwareAddress = device.getAddress();
