@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             Bundle bundle = getIntent().getExtras();
             int selectedCategory = bundle.getInt("selected Category");
             try {
-                URL url = new URL("https://opentdb.com/api.php?amount=10&category=" + selectedCategory + "&=multiple");
+                URL url = new URL("https://opentdb.com/api.php?amount=10&category=" + selectedCategory + "&type=multiple");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 Log.i("url", "url" + url);
                 try {

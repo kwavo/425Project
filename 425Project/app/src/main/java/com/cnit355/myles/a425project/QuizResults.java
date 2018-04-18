@@ -26,7 +26,9 @@ public class QuizResults extends AppCompatActivity {
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mDatabase;
     private String mUserId;
-    int count;
+    Score score;
+     int numCorrect;
+    int count,finalcount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,7 @@ public class QuizResults extends AppCompatActivity {
         result = findViewById(R.id.textView3);
         btnTryAgain = findViewById(R.id.btnTryAgain);
         btnShareOnline = findViewById(R.id.btnShareOnline);
-        int numCorrect  = getIntent().getIntExtra("numberCorrect",0);
+        numCorrect  = getIntent().getIntExtra("numberCorrect",0);
 
         result.setText("You got " + numCorrect + " questions correct!");
 
@@ -74,7 +76,12 @@ public class QuizResults extends AppCompatActivity {
             ValueEventListener newEventListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    count= (int)dataSnapshot.child("Events").getChildrenCount();
+                    for (int i = 0; i < dataSnapshot.child("Events").getChildrenCount(); i++) {
+                        if(dataSnapshot.child("Events").child(String.valueOf(i)).getValue() != null){
+                            count = i;
+                        }
+                        Log.i("Count", String.valueOf(count));
+                    }
                 }
 
                 @Override
@@ -82,11 +89,12 @@ public class QuizResults extends AppCompatActivity {
 
                 }
             };
+
             mDatabase.addValueEventListener(newEventListener);
             mUserId = mFirebaseUser.getEmail();
             String username = mUserId.substring(0,mUserId.indexOf("@"));
             Log.i("User ", mFirebaseUser.getEmail());
-            Score score = new Score(numCorrect,username);
+            score = new Score(numCorrect, username);
             count++;
             mDatabase.child("Events").child(String.valueOf(count)).setValue(score);
         }
