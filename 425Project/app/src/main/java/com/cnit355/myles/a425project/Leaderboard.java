@@ -23,12 +23,12 @@ public class Leaderboard extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboard);
+        setTitle("Top Leaders");
 
         lv = findViewById(R.id.list);
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1);
         lv.setAdapter(adapter);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
     }
 }

@@ -24,6 +24,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,10 +39,13 @@ public class MainActivity extends AppCompatActivity {
     int correctAnswerCounter = 0;
     String selectedAnswer = "";
 
+    int catCounter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTitle("Quizop");
 
         Button nextBtn = findViewById(R.id.nextBtn);
         test = findViewById(R.id.editText);
@@ -87,9 +91,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         protected String doInBackground(Void... urls) {
+            Bundle bundle = getIntent().getExtras();
+            int selectedCategory = bundle.getInt("selected Category");
             try {
-                URL url = new URL("https://opentdb.com/api.php?amount=10&type=multiple");
+                URL url = new URL("https://opentdb.com/api.php?amount=10&category=" + selectedCategory + "&=multiple");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                Log.i("url", "url" + url);
                 try {
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuilder stringBuilder = new StringBuilder();
@@ -100,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                     bufferedReader.close();
                     return stringBuilder.toString();
                 }
-                finally{
+                finally {
                     urlConnection.disconnect();
                 }
             }
@@ -149,6 +156,11 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void generateCategories() {
+
+
     }
 
     private boolean checkAnswer(JSONArray a, int j, String s){
