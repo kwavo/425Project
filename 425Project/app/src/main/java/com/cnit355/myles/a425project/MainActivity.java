@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 questionCounter++;
                 generateNewQuestion(questionList, questionCounter, apiResponse);
                 if(questionCounter > 9){
-                    Intent mIntent = new Intent(MainActivity.this, QuizResults.class);
+                    Intent mIntent = new Intent(MainActivity.this, Leaderboard.class);
                     mIntent.putExtra("numberCorrect", correctAnswerCounter);
                     startActivity(mIntent);
                 }

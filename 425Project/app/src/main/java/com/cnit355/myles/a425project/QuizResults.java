@@ -1,6 +1,7 @@
 package com.cnit355.myles.a425project;
 
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -97,6 +98,9 @@ public class QuizResults extends AppCompatActivity {
             score = new Score(numCorrect, username);
             count++;
             mDatabase.child("Events").child(String.valueOf(count)).setValue(score);
+            Intent intent = new Intent(this, Leaderboard.class);
+            intent.putExtra("QuizScore", numCorrect);
+            LocalBroadcastManager.getInstance(QuizResults.this).sendBroadcast(intent);
         }
     }
 }
