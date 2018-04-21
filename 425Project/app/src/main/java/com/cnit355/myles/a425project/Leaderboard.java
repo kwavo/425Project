@@ -31,6 +31,7 @@ public class Leaderboard extends AppCompatActivity {
     private DatabaseReference mDatabase;
     ArrayAdapter<String> adapter;
     List<String> list;
+    List<String> scoreList,userList;
     ListView lv;
     TextView header;
     private FirebaseAuth mFirebaseAuth;
@@ -38,6 +39,7 @@ public class Leaderboard extends AppCompatActivity {
     private String mUserId;
     int numCorrect;
     int count;
+    LeaderboardArrayAdapter scoreAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +50,15 @@ public class Leaderboard extends AppCompatActivity {
         header = findViewById(R.id.textView4);
         lv = findViewById(R.id.list);
         list = new ArrayList<>();
+//        scoreList = new ArrayList<>();
+//        userList = new ArrayList<>();
+//
+//        scoreAdapter = new LeaderboardArrayAdapter(this, userList, scoreList);
+
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
         lv.setAdapter(adapter);
         count = adapter.getCount();
+        //Log.i("scoreList size", String.valueOf(scoreList.size()));
 
         numCorrect  = getIntent().getIntExtra("numberCorrect",0);
         header.setText("You scored: " + String.valueOf(numCorrect));
@@ -63,19 +71,13 @@ public class Leaderboard extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 for(DataSnapshot d: dataSnapshot.getChildren()){
-                   // Map<String, String> map = (Map) dataSnapshot.child("Events").child(String.valueOf(i)).getValue();
                     Score score = d.getValue(Score.class);
-                    list.add(String.valueOf(score.getScore()));
+                    list.add(score.getUser() +": " + String.valueOf(score.getScore()));
+//                    scoreList.add(String.valueOf(score.getScore()));
+//                    userList.add(String.valueOf(score.getUser()));
+//                    scoreAdapter.notifyDataSetChanged();
                     adapter.notifyDataSetChanged();
                 }
-//                for (int i = 0; i < dataSnapshot.child("Events").getChildrenCount(); i++) {
-//                    if(dataSnapshot.child("Events").child(String.valueOf(i)).getValue() != null){
-//
-//                        count++;
-//                    }
-//                    else{
-//                    }
-//                }
             }
 
             @Override
@@ -98,29 +100,6 @@ public class Leaderboard extends AppCompatActivity {
 
             }
         });
-//        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @SuppressLint("SetTextI18n")
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//               // Map<String, String> map = (Map) dataSnapshot.child("Events").child(String.valueOf(tempPosition + 1)).getValue();
-//                for (int i = 0; i < dataSnapshot.child("Events").getChildrenCount(); i++) {
-//                    if(dataSnapshot.child("Events").child(String.valueOf(i)).getValue() != null){
-//                        Map<String, String> map = (Map) dataSnapshot.child("Events").child(String.valueOf(i)).getValue();
-//                        String score = String.valueOf(map.get("score"));
-//                        adapter.add(score);
-//                        adapter.notifyDataSetChanged();
-//                        count++;
-//                    }
-//                    else{
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
 
         mUserId = mFirebaseUser.getEmail();
 
@@ -130,13 +109,5 @@ public class Leaderboard extends AppCompatActivity {
 
         mDatabase.child("Events").push().setValue(score);
 
-
-
     }
-//    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            largest = intent.getIntExtra(numCorrect);
-//        }
-//    };
 }
