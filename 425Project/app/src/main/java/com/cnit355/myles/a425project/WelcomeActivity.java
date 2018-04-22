@@ -82,5 +82,14 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(beginGame);
             }
         });
+
+        Button btnLeaderboard = findViewById(R.id.btnLeaderboard);
+        btnLeaderboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent moveToLeaderboard = new Intent(WelcomeActivity.this  , Leaderboard.class);
+                startActivity(moveToLeaderboard);
+            }
+        });
     }
 }

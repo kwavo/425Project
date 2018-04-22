@@ -29,11 +29,12 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView test,question;
+    TextView test,question, qCounter;
     ListView list;
     String answers[] = new String[4];
     ArrayAdapter<String> adapter;
     int questionCounter = 0;
+    int qTracker = 1;
     String apiResponse;
     JSONArray questionList;
     int correctAnswerCounter = 0;
@@ -48,10 +49,11 @@ public class MainActivity extends AppCompatActivity {
         setTitle("Quizop");
 
         Button nextBtn = findViewById(R.id.nextBtn);
-        test = findViewById(R.id.editText);
         question = findViewById(R.id.textView2);
         list = findViewById(R.id.listView);
         list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        qCounter = findViewById(R.id.QCounter);
+        qCounter.setText("Question #1");
 
         new Retrieve().execute();
 
@@ -59,13 +61,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 questionCounter++;
+                qTracker ++;
                 generateNewQuestion(questionList, questionCounter, apiResponse);
                 if(questionCounter > 9){
                     Intent mIntent = new Intent(MainActivity.this, Leaderboard.class);
                     mIntent.putExtra("numberCorrect", correctAnswerCounter);
                     startActivity(mIntent);
                 }
-
+                qCounter.setText("Question #" + qTracker);
             }
         });
 

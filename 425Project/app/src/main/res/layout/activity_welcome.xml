@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.cnit355.myles.a425project.WelcomeActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/quiz">
 
 
     <TextView
@@ -14,16 +15,19 @@
         android:text="Welcome to Quizop!"
         android:textAlignment="center"
         android:textColor="@android:color/holo_blue_dark"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:layout_marginTop="30dp"/>
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
         android:text="Press the button below to Begin!"
         android:textAlignment="center"
-        android:textSize="18sp"
-        android:layout_marginTop="100dp"/>
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <Spinner
         android:id="@+id/spinner"
@@ -37,4 +41,11 @@
         android:layout_height="wrap_content"
         android:text="Start the Game"
         android:layout_marginTop="50dp"/>
+
+    <Button
+        android:id="@+id/btnLeaderboard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="LeaderBoard"
+        android:layout_marginTop="40dp"/>
 </LinearLayout>
