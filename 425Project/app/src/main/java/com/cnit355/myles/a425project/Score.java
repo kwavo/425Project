@@ -1,5 +1,7 @@
 package com.cnit355.myles.a425project;
 
+import android.support.annotation.NonNull;
+
 public class Score {
 
     private int score;
@@ -27,4 +29,6 @@ public class Score {
     public int getScore() {
         return score;
     }
+
+
 }

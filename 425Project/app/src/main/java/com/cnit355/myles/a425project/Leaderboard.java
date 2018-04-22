@@ -1,11 +1,6 @@
 package com.cnit355.myles.a425project;
 
-import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.support.v4.content.LocalBroadcastManager;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,17 +15,17 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 public class Leaderboard extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
     ArrayAdapter<String> adapter;
-    List<String> list;
+    ArrayList<String> list;
     List<String> scoreList,userList;
     ListView lv;
     TextView header;
@@ -72,12 +67,15 @@ public class Leaderboard extends AppCompatActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 for(DataSnapshot d: dataSnapshot.getChildren()){
                     Score score = d.getValue(Score.class);
-                    list.add(score.getUser() +": " + String.valueOf(score.getScore()));
+                    list.add(score.getScore() +": " + score.getUser());
+                    //list.add(String.valueOf(score.getScore()));
 //                    scoreList.add(String.valueOf(score.getScore()));
 //                    userList.add(String.valueOf(score.getUser()));
 //                    scoreAdapter.notifyDataSetChanged();
                     adapter.notifyDataSetChanged();
                 }
+                Collections.sort(list);
+                Collections.reverse(list);
             }
 
             @Override
