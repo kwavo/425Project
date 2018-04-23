@@ -88,6 +88,9 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent moveToLeaderboard = new Intent(WelcomeActivity.this  , Leaderboard.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("leaderboard post", 1);
+                moveToLeaderboard.putExtras(bundle);
                 startActivity(moveToLeaderboard);
             }
         });

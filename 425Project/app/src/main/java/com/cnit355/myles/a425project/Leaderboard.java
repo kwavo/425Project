@@ -101,11 +101,13 @@ public class Leaderboard extends AppCompatActivity {
 
         mUserId = mFirebaseUser.getEmail();
 
-        String username = mUserId.substring(0,mUserId.indexOf("@"));
-        Score score = new Score(numCorrect, username);
-        Log.i("leaderboard count", String.valueOf(adapter.getCount()));
-
-        mDatabase.child("Events").push().setValue(score);
+        Bundle bundle = getIntent().getExtras();
+        int leaderboardflag = bundle.getInt("leaderboard post");
+        if (leaderboardflag != 1) {
+            String username = mUserId.substring(0, mUserId.indexOf("@"));
+            Score score = new Score(numCorrect, username);
+            mDatabase.child("Events").push().setValue(score);
+        }
 
     }
 }
