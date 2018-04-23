@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.cnit355.myles.a425project.Leaderboard"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/HQ">
 
     <TextView
         android:id="@+id/textView4"
@@ -25,5 +26,5 @@
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp" />
 </LinearLayout>
